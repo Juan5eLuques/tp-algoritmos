@@ -431,7 +431,11 @@ void cargar_datos(user arr_usuarios[100]){
 							}
 							if(may and min and num){
 								return true;
+							}else{
+								cout << "No cumple con los digitos, minusculas y/o mayusculas" << endl;
 							}
+						}else{
+							cout << "No cumple con el tamaño minimo o maximo" << endl;
 						}
 						return false;
 					}
@@ -539,7 +543,7 @@ void cargar_datos(user arr_usuarios[100]){
 															cout << "Contraseña incorrecta, ";
 														}
 													}else{
-														cout << "Contraseña no cumple requisitos, ";
+														cout << "Le quedan " << (2-intentos) << " intentos!!" << endl;
 													}
 													cout << "Vuelva a ingresarla:" << endl;
 													intentos++;
