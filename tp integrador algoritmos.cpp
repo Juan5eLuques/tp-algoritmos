@@ -7,6 +7,7 @@
 #include <cctype>
 #include <cstring>
 
+
 #define CANT_AVES 10
 #define CANT_PIEDRAS 5
 #define MAXIMO 20
