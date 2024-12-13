@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
 		case '1': crear_usuario(usuarios); break;
 		case '9': cout << "saliendo..." << endl;
 		break;
-		default: break;
+		default: cout << "Comando incorrecto, vuelva a intentar! "<< endl; break;
 		}
 		
 	}while(n!='9');
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
 			case '1': iniciar_sesion(usuarios); break;
 			case '9': cout << "saliendo..." << endl;
 			break;
-			default: break;
+			default: cout << "Comando incorrecto, vuelva a intentar! "<< endl; break;
 			}
 			
 		}while(n!='9');
@@ -362,7 +362,7 @@ void cargar_datos(user arr_usuarios[100]){
 		return;
 	}
 	if(!archivo.eof()){
-		archivo.read((char*)(arr_usuarios),sizeof(arr_usuarios[100]));
+		archivo.read((char*)(arr_usuarios),sizeof(user)*100);
 	}
 }
 	void invertir(char cadena[37]){
@@ -432,10 +432,10 @@ void cargar_datos(user arr_usuarios[100]){
 							if(may and min and num){
 								return true;
 							}else{
-								cout << "No cumple con los digitos, minusculas y/o mayusculas" << endl;
+								cout << endl << "No cumple con los digitos, minusculas y/o mayusculas" << endl;
 							}
 						}else{
-							cout << "No cumple con el tamaño minimo o maximo" << endl;
+							cout << endl << "No cumple con el tamaño minimo o maximo" << endl;
 						}
 						return false;
 					}
@@ -516,7 +516,7 @@ void cargar_datos(user arr_usuarios[100]){
 							}
 								void iniciar_sesion(user arr_usuarios[100]){
 									char usuario_2[100], usuario[11],contrasenia_2[100],contrasenia[37],usuario_3[11];
-									int intentos=0;
+									int intentos=2;
 									do{
 										cout << endl << "Ingrese su nombre de Usuario: " << endl;
 										cin.getline(usuario_2,100);
@@ -540,27 +540,24 @@ void cargar_datos(user arr_usuarios[100]){
 															usuario_actual = i;
 															salir = true; break;	//Guardo el indice del usuario iniciado para acceder a sus datos cuando quiera y corto el while;
 														}else{
-															cout << "Contraseña incorrecta, ";
+															cout << endl << "Contraseña incorrecta, ";
 														}
 													}else{
-														cout << "Le quedan " << (2-intentos) << " intentos!!" << endl;
+														cout << "Le quedan " << (intentos) << " intentos!! ";
 													}
 													cout << "Vuelva a ingresarla:" << endl;
-													intentos++;
-												}while(intentos<3);
+													intentos--;
+												}while(intentos>=0);
 												if(salir){break;}else{
 													cout << endl << "Le quedan 0 intentos!!" << endl; break;
 												}
 											}else{
 												cout << "Nombre de usuario no encontrado" << endl;
 											}
-										}else{
-											cout << "Nombre de usuario no cumple con los requisitos" << endl;
 										}
-										
-										cout << endl << "Le quedan " << (2-intentos) << " intentos!!" << endl;
-										intentos++;
-									}while(intentos<3);
+										cout << endl << "Le quedan " << (intentos) << " intentos!!" << endl;
+										intentos--;
+									}while(intentos>=0);
 									//Si no inicio ningun usuario, se quedo sin intentos
 									if(usuario_actual== -1){	
 										cout << "Ya no le quedan mas intentos.Por razones de seguridad se finaliza la ejecucion de iniciar sesion" << endl << endl;
@@ -587,7 +584,7 @@ void cargar_datos(user arr_usuarios[100]){
 											cout << "Error de apertura del archivo Usuarios";
 											return;
 										}
-										archivo.write((char*)(arr_usuarios),sizeof(arr_usuarios[100]));
+										archivo.write((char*)(arr_usuarios),sizeof(user)*100);
 									}
 
 void algoritmo1(){
