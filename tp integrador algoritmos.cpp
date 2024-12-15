@@ -7,6 +7,7 @@
 #include <cctype>
 #include <cstring>
 
+
 #define CANT_AVES 10
 #define CANT_PIEDRAS 5
 #define MAXIMO 20
@@ -308,7 +309,7 @@ int main(int argc, char *argv[]) {
 		
 		case 2:{ok5=false;
 		while(!ok5){
-			
+			system("cls");
 			cout << "Juego Super Mario Bros - Simulación X" << endl;
 			cout << "=====================================" << endl;
 			cout << endl;
@@ -774,10 +775,7 @@ void algoritmo3(){
 							char tablero[10][20];
 							char tablerosimulacion[10][20];
 							int filas,columnas;
-							cout << "Ingrese la cantidad de filas del tablero (como maximo pueden ser 10): ";
-							cin >> filas;
-							cout << endl <<"Ingrese la cantidad de columnas del tablero (como maximo pueden ser 20): ";
-							cin >> columnas;
+							filas=10, columnas =20;
 							cout << endl;
 							for(int i=0;i<filas;i++){
 								for(int j=0;j<columnas;j++){
