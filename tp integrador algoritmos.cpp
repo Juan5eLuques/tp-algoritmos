@@ -6,13 +6,25 @@
 #include <fstream>
 #include <cctype>
 #include <cstring>
+#include <windows.h>  // Necesario para la función Sleep en Windows
 
 
 #define CANT_AVES 10
 #define CANT_PIEDRAS 5
 #define MAXIMO 20
 
+
 using namespace std;
+const int FILAS = 10;
+const int COLUMNAS = 20;
+
+struct Personaje {
+	int posicionX;               // Posición en X
+	int posicionY;               // Posición en Y
+	bool miraHaciaDerecha;       // Dirección del movimiento
+	int contadorDeMovimientos;   // Contador de movimientos realizados
+	bool saltando;               // Indica si el personaje está saltando
+};
 
 struct fecha{
 	int dia=0;
@@ -53,8 +65,8 @@ void crear_usuario(user arr_usuarios[100]);		//Crea un nuevo usuario
 void nuevo_acceso(user arr_usuarios[100],int i);	//acttualiza las variables de fecha por las del momento del incio de sesion
 void iniciar_sesion(user arr_usuarios[100]);		//Inicia sesion al usuario y actualiza su ultimo acceso
 void guardar_datos(user arr_usuarios[100]);		//Sobrescribe el archivo con los datos actuales.
-
-
+void mostrar_usuario(char usuario[12]);
+void ejecutarSimulacion(char mundo[][20]);
 int main(int argc, char *argv[]) {
 	bool ok=false;
 	int numacceso;
@@ -67,17 +79,37 @@ int main(int argc, char *argv[]) {
 	
 	while(!ok){
 	
-	cout << "    Menú de acceso " << endl;
-	cout << endl;
-	cout << "===============================" << endl;
-	cout << endl;
-	cout << "1.- Registro" << endl;
-	cout << "2.- Iniciar sesión" << endl;
-	cout << "3.- Algoritmos Numéricos" << endl;
-	cout << "4.- Juego Super Mario Bros" << endl;
-	cout << endl;
-	cout << "9.- Salir de la aplicación" << endl;
-	cout << "    Ingrese una opción:"<< endl;
+		system("cls");
+		
+		cout << "#######################################" << endl;
+		cout << "#                                     #" << endl;
+		cout << "#           Menú de acceso            #" << endl;
+		cout << "#                                     #" << endl;
+		cout << "      Usuario: ";
+		if (usuario_actual == -1) {
+			cout << "Invitado";
+		} else {
+			mostrar_usuario(nombre_actual);  // Aquí mostramos el nombre directamente
+		}
+		cout << "" << endl;
+		
+		cout << "#                                     #" << endl;
+		cout << "#######################################" << endl;
+		cout << endl;
+		
+		cout << "1.- Registro" << endl;
+		if (usuario_actual!= -1) {
+			
+		}
+		else {
+			cout << "2.- Iniciar sesión" << endl;
+		}
+		cout << "3.- Algoritmos Numéricos" << endl;
+		cout << "4.- Juego Super Mario Bros" << endl;
+		cout << endl;
+		cout << "9.- Salir de la aplicación" << endl;
+		
+		cout << "Ingrese una opción: ";
 	cin >> numacceso;
 	switch(numacceso){
 	case 1:{
@@ -86,6 +118,7 @@ int main(int argc, char *argv[]) {
 	cargar_datos(usuarios);
 	char n; 
 	do{
+		system("cls");
 		cout << "Ingrese opcion deseada: " << endl;
 		cout << "-----------------------" << endl;
 		cout << "1 - crear usuario " << endl;
@@ -110,6 +143,7 @@ int main(int argc, char *argv[]) {
 		cargar_datos(usuarios);
 		char n; 
 		do{
+			system("cls");
 			cout << "Ingrese opcion deseada: " << endl;
 			cout << "-----------------------" << endl;
 			cout << "1 - iniciar sesion " << endl;
@@ -133,7 +167,7 @@ int main(int argc, char *argv[]) {
 		bool ok2 = false;
 		while(!ok2){
 			
-			system("cls");
+		system("cls");
 		cout << "    Menú Algoritmos Numéricos " << endl;
 		cout << endl;
 		cout << "===============================" << endl;
@@ -156,7 +190,7 @@ int main(int argc, char *argv[]) {
 			
 		case 1:{ ok3=false;
 		while(!ok3){
-			
+			system("cls");
 			cout << "Algoritmo Números de la mala suerte (Solución iterativa)" << endl;
 			cout << "===========================" << endl;
 			cout << "1.- Ver definición" << endl;
@@ -519,6 +553,8 @@ void cargar_datos(user arr_usuarios[100]){
 									char usuario_2[100], usuario[11],contrasenia_2[100],contrasenia[37],usuario_3[11];
 									int intentos=2;
 									do{
+										system("cls");
+										cout << "------------- INICIO DE SESION -------------" << endl;
 										cout << endl << "Ingrese su nombre de Usuario: " << endl;
 										cin.getline(usuario_2,100);
 										//primero verifico que el usuario ingresado cumpla requisitos
@@ -570,10 +606,12 @@ void cargar_datos(user arr_usuarios[100]){
 										if(arr_usuarios[j].ultimo_acceso.dia == 0){	//Primera vez accediendo
 											cout << "Parece que es la primera vez que accedes a tu cuenta!!" << endl << endl;
 											nuevo_acceso(arr_usuarios,j);
+											system("pause");
 										}else{
 											cout << "Parece que la ultima vez que accediste a tu cuenta fue el " << arr_usuarios[j].ultimo_acceso.dia;
 											cout << "/" << arr_usuarios[j].ultimo_acceso.mes << "/" << arr_usuarios[j].ultimo_acceso.anio << endl << endl;
 											nuevo_acceso(arr_usuarios,j);
+											system("pause");
 										}
 									}
 								}
@@ -813,7 +851,10 @@ void algoritmo3(){
 										}
 									}
 								}
+
 							}
+							
+							
 							else{
 							cout << endl <<"Ingrese una cordenada en X: ";
 							cin >> b;
@@ -858,7 +899,165 @@ void algoritmo3(){
 							}
 							cout << endl;
 							
+							ejecutarSimulacion(tablero); 
 						}
 							
-					
-							
+							void mostrar_usuario(char usuario[12]){
+								for(int i=0;i<12;i++){
+									cout << usuario[i];
+								}
+							}
+								// Función para imprimir el estado actual del mundo
+								void imprimirMundo(const char mundo[FILAS][COLUMNAS], const Personaje& mario, const Personaje& luigi, bool personajesEncontrados) {
+									char mundoCopia[FILAS][COLUMNAS];
+									
+									// Copiar el mundo para no alterar el original
+									for (int fila = 0; fila < FILAS; fila++) {
+										for (int columna = 0; columna < COLUMNAS; columna++) {
+											mundoCopia[fila][columna] = mundo[fila][columna];
+										}
+									}
+									
+									// Colocar a Mario y Luigi en el mundo
+									if (personajesEncontrados) {
+										mundoCopia[mario.posicionY][mario.posicionX] = 'B'; // Punto de encuentro
+									} else {
+										mundoCopia[mario.posicionY][mario.posicionX] = 'M';
+										mundoCopia[luigi.posicionY][luigi.posicionX] = 'L';
+									}
+									
+									// Limpiar la pantalla
+									system("cls");
+									
+									// Imprimir el mundo
+									for (int fila = 0; fila < FILAS; fila++) {
+										for (int columna = 0; columna < COLUMNAS; columna++) {
+											cout << mundoCopia[fila][columna];
+										}
+										cout << endl;
+									}
+								}
+								
+								// Función para verificar si hay una piedra en la posición especificada
+								bool hayPiedraEn(const char mundo[FILAS][COLUMNAS], int columna, int fila) {
+									if (columna < 0 || columna >= COLUMNAS || fila < 0 || fila >= FILAS) return false;
+									return mundo[fila][columna] == 'X';
+								}
+								
+								// Función para calcular la altura de las piedras en una columna
+								int alturaPiedra(const char mundo[FILAS][COLUMNAS], int columna, int filaBase) {
+									int altura = 0;
+									for (int fila = filaBase - 1; fila >= 0; fila--) {
+										if (hayPiedraEn(mundo, columna, fila)) {
+											altura++;
+										} else {
+											break;
+										}
+									}
+									return altura;
+								}
+								
+								// Función para mover el personaje según las reglas del juego
+								bool moverPersonaje(Personaje& personaje, const char mundo[FILAS][COLUMNAS]) {
+									int direccion = personaje.miraHaciaDerecha ? 1 : -1;
+									int siguienteX = personaje.posicionX + direccion;
+									bool turnoCompleto = true;
+									
+									// Verificar límites del mundo
+									if (siguienteX < 0 || siguienteX >= COLUMNAS) {
+										personaje.miraHaciaDerecha = !personaje.miraHaciaDerecha; // Cambiar dirección
+										return true; // Turno completado
+									}
+									
+									// Calcular altura de la pila de piedras
+									int altura = alturaPiedra(mundo, siguienteX, personaje.posicionY);
+									
+									// Si hay piedras en el camino
+									if (altura > 0) {
+										if (personaje.posicionY > altura) {
+											personaje.posicionY--; // Subir un nivel
+											personaje.contadorDeMovimientos++;
+											personaje.saltando = true; // Está subiendo
+											turnoCompleto = false;    // Mantener turno
+										} else if (personaje.posicionY == altura) {
+											personaje.posicionX = siguienteX; // Saltar horizontalmente
+											personaje.contadorDeMovimientos++;
+											turnoCompleto = false;           // Mantener turno para el descenso
+										} else {
+											personaje.saltando = false; // Ya no está saltando
+										}
+									} else {
+										// Avanzar horizontalmente
+										personaje.posicionX = siguienteX;
+										personaje.contadorDeMovimientos++;
+										
+										// Intentar bajar si es posible
+										while (personaje.posicionY < FILAS - 1 && !hayPiedraEn(mundo, personaje.posicionX, personaje.posicionY + 1)) {
+											personaje.posicionY++; // Bajar
+											personaje.contadorDeMovimientos++;
+											personaje.saltando = true; // Sigue bajando
+											turnoCompleto = false;    // Mantener turno mientras baja
+										}
+										
+										// Finalizar salto si está en el suelo
+										if (personaje.posicionY == FILAS - 1 || hayPiedraEn(mundo, personaje.posicionX, personaje.posicionY + 1)) {
+											personaje.saltando = false;
+											turnoCompleto = true;
+										}
+									}
+									
+									return turnoCompleto; // Indicar si el turno se completó o no
+								}
+								
+								// Función para inicializar a Mario y Luigi en posiciones válidas
+								void inicializarPersonajes(Personaje& mario, Personaje& luigi, const char mundo[FILAS][COLUMNAS]) {
+									srand(time(0));
+									do {
+										mario.posicionX = rand() % COLUMNAS;
+										mario.posicionY = FILAS - 1;
+										mario.miraHaciaDerecha = rand() % 2;
+										mario.contadorDeMovimientos = 0;
+										mario.saltando = false;
+										
+										luigi.posicionX = rand() % COLUMNAS;
+										luigi.posicionY = FILAS - 1;
+										luigi.miraHaciaDerecha = rand() % 2;
+										luigi.contadorDeMovimientos = 0;
+										luigi.saltando = false;
+										
+									} while (mundo[mario.posicionY][mario.posicionX] == 'X' ||
+										mundo[luigi.posicionY][luigi.posicionX] == 'X' ||
+											mario.posicionX == luigi.posicionX); // Asegurarse de que no empiecen en la misma posición o sobre una piedra
+								}
+								
+								// Función principal para ejecutar la simulación
+								void ejecutarSimulacion(char mundo[FILAS][COLUMNAS]) {
+									Personaje mario, luigi;
+									inicializarPersonajes(mario, luigi, mundo);
+									
+									bool personajesEncontrados = false;
+									bool turnoMario = true;
+									
+									while (!personajesEncontrados) {
+										imprimirMundo(mundo, mario, luigi, personajesEncontrados);
+										Sleep(1500); // Pausa de 1.5 segundos
+										
+										if (turnoMario) {
+											if (!mario.saltando) {
+												turnoMario = moverPersonaje(mario, mundo);
+											}
+										} else {
+											if (!luigi.saltando) {
+												turnoMario = !moverPersonaje(luigi, mundo);
+											}
+										}
+										
+										if (mario.posicionX == luigi.posicionX && mario.posicionY == luigi.posicionY) {
+											personajesEncontrados = true;
+											imprimirMundo(mundo, mario, luigi, true);
+											cout << "¡Mario y Luigi se encontraron!" << endl;
+											cout << "Movimientos de Mario: " << mario.contadorDeMovimientos << endl;
+											cout << "Movimientos de Luigi: " << luigi.contadorDeMovimientos << endl;
+										}
+									}
+								}
