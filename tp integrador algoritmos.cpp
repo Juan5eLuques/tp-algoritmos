@@ -6,25 +6,12 @@
 #include <fstream>
 #include <cctype>
 #include <cstring>
-#include <windows.h>  // Necesario para la función Sleep en Windows
-
 
 #define CANT_AVES 10
 #define CANT_PIEDRAS 5
 #define MAXIMO 20
 
-
 using namespace std;
-const int FILAS = 10;
-const int COLUMNAS = 20;
-
-struct Personaje {
-	int posicionX;               // Posición en X
-	int posicionY;               // Posición en Y
-	bool miraHaciaDerecha;       // Dirección del movimiento
-	int contadorDeMovimientos;   // Contador de movimientos realizados
-	bool saltando;               // Indica si el personaje está saltando
-};
 
 struct fecha{
 	int dia=0;
@@ -40,19 +27,19 @@ struct user{
 
 
 
-void algoritmo1();
-void algoritmo2();
-void algoritmo3();
-void algoritmo4();
-long long recursiva4(long long n);
-void simulacion1();
+void algoritmo1(); // algoritmo de Numeros de mala suerte (iterativa)
+void algoritmo2(); // algoritmo de Numeros de mala suerte (recursiva)
+void algoritmo3(); // algoritmo de Numeros Espiral (iterativa)
+void algoritmo4(); // algoritmo de Numeros Espiral (recursiva)
+long long recursiva4(long long n); //funcion recursiva para algoritmo 4
+void simulacion1(); // algoritmo de simulacion de Mario y Luigi
 void simulacion2();
 void cargarObstaculos(char tablero[][MAXIMO], int tamanio_obstaculos[], bool tipo, int filas, int columnas);
 bool disponible(char tablero[][MAXIMO], int x, int filas);
 void cargarTablero(char tablero[][MAXIMO], int filas, int columnas);
-bool numero_malasuerte(string n);
-unsigned long long irecursiva=0; bool uno_2=false; bool malasuerte = false;
-void numero_Ms_Recursivo(string &n);
+bool numero_malasuerte(string n); // funcion iterativa de algoritmo 1
+unsigned long long irecursiva=0; bool uno_2=false; bool malasuerte = false; //variables para la funcion recursiva de algoritmo 2
+void numero_Ms_Recursivo(string &n); //funcion recursiva de algoritmo 2
 int usuario_actual =-1;	//Subindice del usuario iniciado
 char nombre_actual[11]; 	//Nombre sin cifrar del usuario
 void cargar_datos(user arr_usuarios[100]);	//Carga los datos desde un archivo binario
@@ -65,13 +52,13 @@ void crear_usuario(user arr_usuarios[100]);		//Crea un nuevo usuario
 void nuevo_acceso(user arr_usuarios[100],int i);	//acttualiza las variables de fecha por las del momento del incio de sesion
 void iniciar_sesion(user arr_usuarios[100]);		//Inicia sesion al usuario y actualiza su ultimo acceso
 void guardar_datos(user arr_usuarios[100]);		//Sobrescribe el archivo con los datos actuales.
-void mostrar_usuario(char usuario[12]);
-void ejecutarSimulacion(char mundo[][20]);
+
+
 int main(int argc, char *argv[]) {
 	bool ok=false;
 	int numacceso;
-	string stralg1;
-	string stralg2;
+	string stralg1 = "Se pide un numero 'n', luego en la funcion va recorriendo el numero hasta encontrar la combinacion 13, si la encuentra retorna true y muestra el mensaje que ese numero es de mala suerte, sino retorna false y muestra el mensaje que ese numero no es de mala suerte";
+	string stralg2 = "Se pide un numero 'n', luego en la funcion va recorriendo el numero, si encuentra un uno, y el numero siguiente es un 3, entonces corta la funcion y n es de mala suerte, sino pregunta si quedan valores por analizar, si quedan valores se llama a la funcion otra vez, y sino n no es de mala suerte";
 	string stralg3 = "Se pide un numero 'n', luego entra al bucle (si n es distinto de 1) y con 2 auxiliares (aux es para ir sumando los valores previos a aux2, cuando se lo alcanza a aux2, este se incrementa en 1 y aux vuelve a valer 1, todo esto si aux2 no es igual a n) va preguntando, si aux es menor a aux2 (aca se suma 2 veces el valor de aux) y si aux es igual aux2(se suma 1 vez el valor de aux y si aux2 es menor a n se incrementa, sino termina el bucle). Luego de esto muestra el numero espiral de n y termina el programa";
 	string stralg4 = "Se pide un numero 'n', luego entra a la funcion 'recursiva', ahi pregunta, si n es igual a 1 , retorna 1, sino se suman 2 veces los valores previos a n y una vez el valor de n, luego retorna la suma más la funcion 'recursiva' pasandole como parametro n-1, cuando n sea iguala 1, retorna 1, se suman todos los valores y se devuelve esa suma a la funcion main, donde se mostrara el resultado";
 	
@@ -79,37 +66,17 @@ int main(int argc, char *argv[]) {
 	
 	while(!ok){
 	
-		system("cls");
-		
-		cout << "#######################################" << endl;
-		cout << "#                                     #" << endl;
-		cout << "#           Menú de acceso            #" << endl;
-		cout << "#                                     #" << endl;
-		cout << "      Usuario: ";
-		if (usuario_actual == -1) {
-			cout << "Invitado";
-		} else {
-			mostrar_usuario(nombre_actual);  // Aquí mostramos el nombre directamente
-		}
-		cout << "" << endl;
-		
-		cout << "#                                     #" << endl;
-		cout << "#######################################" << endl;
-		cout << endl;
-		
-		cout << "1.- Registro" << endl;
-		if (usuario_actual!= -1) {
-			
-		}
-		else {
-			cout << "2.- Iniciar sesión" << endl;
-		}
-		cout << "3.- Algoritmos Numéricos" << endl;
-		cout << "4.- Juego Super Mario Bros" << endl;
-		cout << endl;
-		cout << "9.- Salir de la aplicación" << endl;
-		
-		cout << "Ingrese una opción: ";
+	cout << "    Menú de acceso " << endl;
+	cout << endl;
+	cout << "===============================" << endl;
+	cout << endl;
+	cout << "1.- Registro" << endl;
+	cout << "2.- Iniciar sesión" << endl;
+	cout << "3.- Algoritmos Numéricos" << endl;
+	cout << "4.- Juego Super Mario Bros" << endl;
+	cout << endl;
+	cout << "9.- Salir de la aplicación" << endl;
+	cout << "    Ingrese una opción:"<< endl;
 	cin >> numacceso;
 	switch(numacceso){
 	case 1:{
@@ -118,7 +85,6 @@ int main(int argc, char *argv[]) {
 	cargar_datos(usuarios);
 	char n; 
 	do{
-		system("cls");
 		cout << "Ingrese opcion deseada: " << endl;
 		cout << "-----------------------" << endl;
 		cout << "1 - crear usuario " << endl;
@@ -129,7 +95,7 @@ int main(int argc, char *argv[]) {
 		case '1': crear_usuario(usuarios); break;
 		case '9': cout << "saliendo..." << endl;
 		break;
-		default: cout << "Comando incorrecto, vuelva a intentar! "<< endl; break;
+		default: break;
 		}
 		
 	}while(n!='9');
@@ -143,7 +109,6 @@ int main(int argc, char *argv[]) {
 		cargar_datos(usuarios);
 		char n; 
 		do{
-			system("cls");
 			cout << "Ingrese opcion deseada: " << endl;
 			cout << "-----------------------" << endl;
 			cout << "1 - iniciar sesion " << endl;
@@ -154,7 +119,7 @@ int main(int argc, char *argv[]) {
 			case '1': iniciar_sesion(usuarios); break;
 			case '9': cout << "saliendo..." << endl;
 			break;
-			default: cout << "Comando incorrecto, vuelva a intentar! "<< endl; break;
+			default: break;
 			}
 			
 		}while(n!='9');
@@ -167,7 +132,7 @@ int main(int argc, char *argv[]) {
 		bool ok2 = false;
 		while(!ok2){
 			
-		system("cls");
+			system("cls");
 		cout << "    Menú Algoritmos Numéricos " << endl;
 		cout << endl;
 		cout << "===============================" << endl;
@@ -190,7 +155,7 @@ int main(int argc, char *argv[]) {
 			
 		case 1:{ ok3=false;
 		while(!ok3){
-			system("cls");
+			
 			cout << "Algoritmo Números de la mala suerte (Solución iterativa)" << endl;
 			cout << "===========================" << endl;
 			cout << "1.- Ver definición" << endl;
@@ -318,7 +283,7 @@ int main(int argc, char *argv[]) {
 		switch(numaccesosmb){
 		case 1:{ok5=false;
 		while(!ok5){
-			cout << "Juego Super Mario Bros - Simulación X" << endl;
+			cout << "Juego Super Mario Bros - Simulación de encuentro entre Mario y Luigi" << endl;
 			cout << "=====================================" << endl;
 			cout << endl;
 			cout << endl;
@@ -343,7 +308,7 @@ int main(int argc, char *argv[]) {
 		
 		case 2:{ok5=false;
 		while(!ok5){
-			system("cls");
+			
 			cout << "Juego Super Mario Bros - Simulación X" << endl;
 			cout << "=====================================" << endl;
 			cout << endl;
@@ -376,7 +341,8 @@ int main(int argc, char *argv[]) {
 	case 9: ok=true;
 	break;
 	default:system("cls");
-	cout << "Intente nuevamente" << endl;
+	cout << "Intente nuevamente" << endl << endl;
+	cout << "==================" << endl << endl;
 	}
 	
 	
@@ -384,6 +350,11 @@ int main(int argc, char *argv[]) {
 	}
 	return 0;
 }
+
+
+
+
+
 
 
 
@@ -397,7 +368,7 @@ void cargar_datos(user arr_usuarios[100]){
 		return;
 	}
 	if(!archivo.eof()){
-		archivo.read((char*)(arr_usuarios),sizeof(user)*100);
+		archivo.read((char*)(arr_usuarios),sizeof(arr_usuarios[100]));
 	}
 }
 	void invertir(char cadena[37]){
@@ -466,11 +437,7 @@ void cargar_datos(user arr_usuarios[100]){
 							}
 							if(may and min and num){
 								return true;
-							}else{
-								cout << endl << "No cumple con los digitos, minusculas y/o mayusculas" << endl;
 							}
-						}else{
-							cout << endl << "No cumple con el tamaño minimo o maximo" << endl;
 						}
 						return false;
 					}
@@ -551,10 +518,8 @@ void cargar_datos(user arr_usuarios[100]){
 							}
 								void iniciar_sesion(user arr_usuarios[100]){
 									char usuario_2[100], usuario[11],contrasenia_2[100],contrasenia[37],usuario_3[11];
-									int intentos=2;
+									int intentos=0;
 									do{
-										system("cls");
-										cout << "------------- INICIO DE SESION -------------" << endl;
 										cout << endl << "Ingrese su nombre de Usuario: " << endl;
 										cin.getline(usuario_2,100);
 										//primero verifico que el usuario ingresado cumpla requisitos
@@ -577,24 +542,27 @@ void cargar_datos(user arr_usuarios[100]){
 															usuario_actual = i;
 															salir = true; break;	//Guardo el indice del usuario iniciado para acceder a sus datos cuando quiera y corto el while;
 														}else{
-															cout << endl << "Contraseña incorrecta, ";
+															cout << "Contraseña incorrecta, ";
 														}
 													}else{
-														cout << "Le quedan " << (intentos) << " intentos!! ";
+														cout << "Contraseña no cumple requisitos, ";
 													}
 													cout << "Vuelva a ingresarla:" << endl;
-													intentos--;
-												}while(intentos>=0);
+													intentos++;
+												}while(intentos<3);
 												if(salir){break;}else{
 													cout << endl << "Le quedan 0 intentos!!" << endl; break;
 												}
 											}else{
 												cout << "Nombre de usuario no encontrado" << endl;
 											}
+										}else{
+											cout << "Nombre de usuario no cumple con los requisitos" << endl;
 										}
-										cout << endl << "Le quedan " << (intentos) << " intentos!!" << endl;
-										intentos--;
-									}while(intentos>=0);
+										
+										cout << endl << "Le quedan " << (2-intentos) << " intentos!!" << endl;
+										intentos++;
+									}while(intentos<3);
 									//Si no inicio ningun usuario, se quedo sin intentos
 									if(usuario_actual== -1){	
 										cout << "Ya no le quedan mas intentos.Por razones de seguridad se finaliza la ejecucion de iniciar sesion" << endl << endl;
@@ -606,12 +574,10 @@ void cargar_datos(user arr_usuarios[100]){
 										if(arr_usuarios[j].ultimo_acceso.dia == 0){	//Primera vez accediendo
 											cout << "Parece que es la primera vez que accedes a tu cuenta!!" << endl << endl;
 											nuevo_acceso(arr_usuarios,j);
-											system("pause");
 										}else{
 											cout << "Parece que la ultima vez que accediste a tu cuenta fue el " << arr_usuarios[j].ultimo_acceso.dia;
 											cout << "/" << arr_usuarios[j].ultimo_acceso.mes << "/" << arr_usuarios[j].ultimo_acceso.anio << endl << endl;
 											nuevo_acceso(arr_usuarios,j);
-											system("pause");
 										}
 									}
 								}
@@ -623,7 +589,7 @@ void cargar_datos(user arr_usuarios[100]){
 											cout << "Error de apertura del archivo Usuarios";
 											return;
 										}
-										archivo.write((char*)(arr_usuarios),sizeof(user)*100);
+										archivo.write((char*)(arr_usuarios),sizeof(arr_usuarios[100]));
 									}
 
 void algoritmo1(){
@@ -638,7 +604,7 @@ void algoritmo1(){
 	bool numero_malasuerte(string n){
 		bool uno = false;
 		unsigned long long i=0;
-		//leo el numero como estring y lo recorro hasta el final o hasta leer el 13
+		//leo el numero como string y lo recorro hasta el final o hasta leer el 13
 		while(i<n.size()){	
 			if (n[i] == '1'){
 				uno = true;
@@ -696,7 +662,7 @@ void algoritmo3(){
 	cin >> n;
 	if(n!=1){
 		bool ok=false;
-		while(!ok){
+		while(!ok){//hasta que aux no sea igual a n no para
 			if(aux<aux2){
 				suma+=aux*2;
 				aux++;
@@ -704,8 +670,8 @@ void algoritmo3(){
 			if(aux==aux2){
 				suma+=aux;
 				if(aux2<n){
-					aux2++;
-					aux=1;
+					aux2++;//incrementa el tope
+					aux=1;//reseteo aux
 				}
 			}
 			if(aux==n) ok=true;
@@ -812,21 +778,19 @@ void algoritmo3(){
 						void simulacion1(){
 							char tablero[10][20];
 							char tablerosimulacion[10][20];
-							int filas,columnas;
-							filas=10, columnas =20;
-							cout << endl;
-							for(int i=0;i<filas;i++){
-								for(int j=0;j<columnas;j++){
+							
+							for(int i=0;i<10;i++){
+								for(int j=0;j<20;j++){
 										tablero[i][j]=' ';
 								}
 							}
-							cargarTablero(tablerosimulacion,filas,columnas);
+							cargarTablero(tablerosimulacion,10,20);
 							bool ok=false;
 							int aves=0,rocas=0;
 							while(!ok){
 							int a,b;
-							for(int i=0;i<filas;i++){
-								for(int j=0;j<columnas;j++){
+							for(int i=0;i<10;i++){
+								for(int j=0;j<20;j++){
 									cout << tablero[i][j] <<" ";
 									}
 								cout << endl;
@@ -837,10 +801,10 @@ void algoritmo3(){
 							cin >> a;
 							if(a==99){
 								ok=true;
-								for(int i=0;i<filas;i++){
-									for(int j=0;j<columnas;j++){
+								for(int i=0;i<10;i++){
+									for(int j=0;j<20;j++){
 										if(tablerosimulacion[i][j]!='^' and tablerosimulacion[i][j]!='X'){
-											if(i==filas-1) tablero[i][j]='_';
+											if(i==9) tablero[i][j]='_';
 											else tablero[i][j]='.';
 										}
 										if(tablerosimulacion[i][j]=='^'){
@@ -851,10 +815,7 @@ void algoritmo3(){
 										}
 									}
 								}
-
 							}
-							
-							
 							else{
 							cout << endl <<"Ingrese una cordenada en X: ";
 							cin >> b;
@@ -869,20 +830,20 @@ void algoritmo3(){
 								tablero[a][b]='X';
 								++rocas;
 							}
-							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a<filas-1){
+							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a<9){
 								cout << endl << "Aire" << endl;
 								tablero[a][b]='.';
 							}
-							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a==filas-1){
+							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a==9){
 								cout << endl << "Tierra" << endl;;
 								tablero[a][b]='_';
 							}
 							if(aves==10 and rocas==11){
 								ok=true;
-								for(int i=0;i<filas;i++){
-									for(int j=0;j<columnas;j++){
+								for(int i=0;i<10;i++){
+									for(int j=0;j<20;j++){
 										if(tablerosimulacion[i][j]!='^' and tablerosimulacion[i][j]!='X'){
-										if(i==filas-1) tablero[i][j]='_';
+										if(i==9) tablero[i][j]='_';
 										else tablero[i][j]='.';
 										}
 									}
@@ -891,173 +852,15 @@ void algoritmo3(){
 							
 							}
 							}
-							for(int i=0;i<filas;i++){
-								for(int j=0;j<columnas;j++){
+							for(int i=0;i<10;i++){
+								for(int j=0;j<20;j++){
 									cout << tablero[i][j] <<" ";
 								}
 								cout << endl;
 							}
 							cout << endl;
 							
-							ejecutarSimulacion(tablero); 
 						}
 							
-							void mostrar_usuario(char usuario[12]){
-								for(int i=0;i<12;i++){
-									cout << usuario[i];
-								}
-							}
-								// Función para imprimir el estado actual del mundo
-								void imprimirMundo(const char mundo[FILAS][COLUMNAS], const Personaje& mario, const Personaje& luigi, bool personajesEncontrados) {
-									char mundoCopia[FILAS][COLUMNAS];
-									
-									// Copiar el mundo para no alterar el original
-									for (int fila = 0; fila < FILAS; fila++) {
-										for (int columna = 0; columna < COLUMNAS; columna++) {
-											mundoCopia[fila][columna] = mundo[fila][columna];
-										}
-									}
-									
-									// Colocar a Mario y Luigi en el mundo
-									if (personajesEncontrados) {
-										mundoCopia[mario.posicionY][mario.posicionX] = 'B'; // Punto de encuentro
-									} else {
-										mundoCopia[mario.posicionY][mario.posicionX] = 'M';
-										mundoCopia[luigi.posicionY][luigi.posicionX] = 'L';
-									}
-									
-									// Limpiar la pantalla
-									system("cls");
-									
-									// Imprimir el mundo
-									for (int fila = 0; fila < FILAS; fila++) {
-										for (int columna = 0; columna < COLUMNAS; columna++) {
-											cout << mundoCopia[fila][columna];
-										}
-										cout << endl;
-									}
-								}
-								
-								// Función para verificar si hay una piedra en la posición especificada
-								bool hayPiedraEn(const char mundo[FILAS][COLUMNAS], int columna, int fila) {
-									if (columna < 0 || columna >= COLUMNAS || fila < 0 || fila >= FILAS) return false;
-									return mundo[fila][columna] == 'X';
-								}
-								
-								// Función para calcular la altura de las piedras en una columna
-								int alturaPiedra(const char mundo[FILAS][COLUMNAS], int columna, int filaBase) {
-									int altura = 0;
-									for (int fila = filaBase - 1; fila >= 0; fila--) {
-										if (hayPiedraEn(mundo, columna, fila)) {
-											altura++;
-										} else {
-											break;
-										}
-									}
-									return altura;
-								}
-								
-								// Función para mover el personaje según las reglas del juego
-								bool moverPersonaje(Personaje& personaje, const char mundo[FILAS][COLUMNAS]) {
-									int direccion = personaje.miraHaciaDerecha ? 1 : -1;
-									int siguienteX = personaje.posicionX + direccion;
-									bool turnoCompleto = true;
-									
-									// Verificar límites del mundo
-									if (siguienteX < 0 || siguienteX >= COLUMNAS) {
-										personaje.miraHaciaDerecha = !personaje.miraHaciaDerecha; // Cambiar dirección
-										return true; // Turno completado
-									}
-									
-									// Calcular altura de la pila de piedras
-									int altura = alturaPiedra(mundo, siguienteX, personaje.posicionY);
-									
-									// Si hay piedras en el camino
-									if (altura > 0) {
-										if (personaje.posicionY > altura) {
-											personaje.posicionY--; // Subir un nivel
-											personaje.contadorDeMovimientos++;
-											personaje.saltando = true; // Está subiendo
-											turnoCompleto = false;    // Mantener turno
-										} else if (personaje.posicionY == altura) {
-											personaje.posicionX = siguienteX; // Saltar horizontalmente
-											personaje.contadorDeMovimientos++;
-											turnoCompleto = false;           // Mantener turno para el descenso
-										} else {
-											personaje.saltando = false; // Ya no está saltando
-										}
-									} else {
-										// Avanzar horizontalmente
-										personaje.posicionX = siguienteX;
-										personaje.contadorDeMovimientos++;
-										
-										// Intentar bajar si es posible
-										while (personaje.posicionY < FILAS - 1 && !hayPiedraEn(mundo, personaje.posicionX, personaje.posicionY + 1)) {
-											personaje.posicionY++; // Bajar
-											personaje.contadorDeMovimientos++;
-											personaje.saltando = true; // Sigue bajando
-											turnoCompleto = false;    // Mantener turno mientras baja
-										}
-										
-										// Finalizar salto si está en el suelo
-										if (personaje.posicionY == FILAS - 1 || hayPiedraEn(mundo, personaje.posicionX, personaje.posicionY + 1)) {
-											personaje.saltando = false;
-											turnoCompleto = true;
-										}
-									}
-									
-									return turnoCompleto; // Indicar si el turno se completó o no
-								}
-								
-								// Función para inicializar a Mario y Luigi en posiciones válidas
-								void inicializarPersonajes(Personaje& mario, Personaje& luigi, const char mundo[FILAS][COLUMNAS]) {
-									srand(time(0));
-									do {
-										mario.posicionX = rand() % COLUMNAS;
-										mario.posicionY = FILAS - 1;
-										mario.miraHaciaDerecha = rand() % 2;
-										mario.contadorDeMovimientos = 0;
-										mario.saltando = false;
-										
-										luigi.posicionX = rand() % COLUMNAS;
-										luigi.posicionY = FILAS - 1;
-										luigi.miraHaciaDerecha = rand() % 2;
-										luigi.contadorDeMovimientos = 0;
-										luigi.saltando = false;
-										
-									} while (mundo[mario.posicionY][mario.posicionX] == 'X' ||
-										mundo[luigi.posicionY][luigi.posicionX] == 'X' ||
-											mario.posicionX == luigi.posicionX); // Asegurarse de que no empiecen en la misma posición o sobre una piedra
-								}
-								
-								// Función principal para ejecutar la simulación
-								void ejecutarSimulacion(char mundo[FILAS][COLUMNAS]) {
-									Personaje mario, luigi;
-									inicializarPersonajes(mario, luigi, mundo);
-									
-									bool personajesEncontrados = false;
-									bool turnoMario = true;
-									
-									while (!personajesEncontrados) {
-										imprimirMundo(mundo, mario, luigi, personajesEncontrados);
-										Sleep(1500); // Pausa de 1.5 segundos
-										
-										if (turnoMario) {
-											if (!mario.saltando) {
-												turnoMario = moverPersonaje(mario, mundo);
-											}
-										} else {
-											if (!luigi.saltando) {
-												turnoMario = !moverPersonaje(luigi, mundo);
-											}
-										}
-										
-										if (mario.posicionX == luigi.posicionX && mario.posicionY == luigi.posicionY) {
-											personajesEncontrados = true;
-											imprimirMundo(mundo, mario, luigi, true);
-											cout << "¡Mario y Luigi se encontraron!" << endl;
-											cout << "Movimientos de Mario: " << mario.contadorDeMovimientos << endl;
-											cout << "Movimientos de Luigi: " << luigi.contadorDeMovimientos << endl;
-										}
-									}
-								}
+					
+							
