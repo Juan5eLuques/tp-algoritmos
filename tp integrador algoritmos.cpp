@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
 			cout << endl;
 			cout << "Ingrese una opción:" << endl;
 			cin >> numaccesosubpro;
-			if(numaccesosubpro==1) cout << stralg1 << endl;
+			if(numaccesosubpro==1) {cout << stralg1 << endl; system("pause");} 
 			else if(numaccesosubpro==2) algoritmo1();
 			else if(numaccesosubpro==9){
 				system("cls");
@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
 				
 		case 2:{ ok3=false;
 		while(!ok3){
-			
+			system("cls");
 			cout << "Algoritmo Números de la mala suerte (Solución recursiva)" << endl;
 			cout << "===========================" << endl;
 			cout << "1.- Ver definición" << endl;
@@ -201,8 +201,8 @@ int main(int argc, char *argv[]) {
 			cout << endl;
 			cout << "Ingrese una opción:" << endl;
 			cin >> numaccesosubpro;
-			if(numaccesosubpro==1) cout << stralg2 << endl;
-			else if(numaccesosubpro==2) algoritmo2();
+			if(numaccesosubpro==1){cout << stralg2 << endl; system("pause");} 
+			else if(numaccesosubpro==2) {algoritmo2(); system("pause");}
 			else if(numaccesosubpro==9){
 				system("cls");
 				ok3=true;
@@ -217,6 +217,7 @@ int main(int argc, char *argv[]) {
 			
 		case 3:{ ok3=false;
 		while(!ok3){
+			system("cls");
 			cout << "Algoritmo Números Espiral (Solución iterativa)" << endl;
 			cout << "===========================" << endl;
 			cout << "1.- Ver definición" << endl;
@@ -226,8 +227,8 @@ int main(int argc, char *argv[]) {
 			cout << endl;
 			cout << "Ingrese una opción:" << endl;
 			cin >> numaccesosubpro;
-			if(numaccesosubpro==1) cout << stralg3 << endl;
-			else if(numaccesosubpro==2) algoritmo3();
+			if(numaccesosubpro==1) {cout << stralg3 << endl; system("pause");}
+			else if(numaccesosubpro==2) { algoritmo3(); system("pause");}
 			else if(numaccesosubpro==9){
 				system("cls");
 				ok3=true;
@@ -243,6 +244,7 @@ int main(int argc, char *argv[]) {
 			
 		case 4:{ ok3=false;
 		while(!ok3){
+			system("cls");
 			cout << "Algoritmo Números Espiral (Solución recursiva)" << endl;
 			cout << "===========================" << endl;
 			cout << "1.- Ver definición" << endl;
@@ -252,8 +254,8 @@ int main(int argc, char *argv[]) {
 			cout << endl;
 			cout << "Ingrese una opción:" << endl;
 			cin >> numaccesosubpro;
-			if(numaccesosubpro==1) cout << stralg4 << endl;
-			else if(numaccesosubpro==2) algoritmo4();
+			if(numaccesosubpro==1) {cout << stralg4 << endl;system("pause");} 
+			else if(numaccesosubpro==2) {algoritmo4();system("pause");} 
 			else if(numaccesosubpro==9){
 				system("cls");
 				ok3=true;
@@ -604,6 +606,7 @@ void cargar_datos(user arr_usuarios[100]){
 									}
 
 void algoritmo1(){
+	cout << "Ingrese un numero: " << endl;
 	string n; cin >> n;
 	if(numero_malasuerte(n)){
 	cout << n << " es de Mala Suerte" << endl;
@@ -611,6 +614,7 @@ void algoritmo1(){
 	else{
 	cout << n << " NO es de Mala Suerte" << endl;
 	}
+	system("pause");
 }
 	bool numero_malasuerte(string n){
 		bool uno = false;
@@ -635,6 +639,7 @@ void algoritmo1(){
 		
 		
 void algoritmo2(){
+	cout << "Ingrese un numero:" << endl;
 		string n; cin >> n;
 		numero_Ms_Recursivo(n);
 	}
@@ -670,6 +675,7 @@ void algoritmo2(){
 
 void algoritmo3(){
 	long long n,aux=1,aux2=2,suma=1;
+	cout << "Ingrese un numero: " << endl;
 	cin >> n;
 	if(n!=1){
 		bool ok=false;
@@ -688,14 +694,15 @@ void algoritmo3(){
 			if(aux==n) ok=true;
 		}
 	}
-	cout << suma << endl;	
+	cout << "El numero spiral de n es: " << suma << endl;
 }
 	
 	void algoritmo4(){
 		long long n;
+		cout << "Ingrese un numero: " << endl;
 		cin >> n;
 		long long suma=recursiva4(n);
-		cout << suma << endl;
+		cout << "El numero spiral de n es: " << suma << endl;
 	}
 		
 		long long recursiva4(long long n){
