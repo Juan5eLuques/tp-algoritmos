@@ -67,6 +67,7 @@ void iniciar_sesion(user arr_usuarios[100]);		//Inicia sesion al usuario y actua
 void guardar_datos(user arr_usuarios[100]);		//Sobrescribe el archivo con los datos actuales.
 void mostrar_usuario(char usuario[12]);
 void ejecutarSimulacion(char mundo[][20]);
+
 int main(int argc, char *argv[]) {
 	bool ok=false;
 	int numacceso;
@@ -97,11 +98,12 @@ int main(int argc, char *argv[]) {
 		cout << "#######################################" << endl;
 		cout << endl;
 		
-		cout << "1.- Registro" << endl;
+		
 		if (usuario_actual!= -1) {
 			
 		}
 		else {
+			cout << "1.- Registro" << endl;
 			cout << "2.- Iniciar sesión" << endl;
 		}
 		cout << "3.- Algoritmos Numéricos" << endl;
@@ -113,26 +115,13 @@ int main(int argc, char *argv[]) {
 	cin >> numacceso;
 	switch(numacceso){
 	case 1:{
-		user usuarios[100];
+	user usuarios[100];
 	
 	cargar_datos(usuarios);
-	char n; 
-	do{
-		system("cls");
-		cout << "Ingrese opcion deseada: " << endl;
-		cout << "-----------------------" << endl;
-		cout << "1 - crear usuario " << endl;
-		cout << "9 - salir " << endl;
-		cin >> n;
-		cin.ignore();
-		switch(n){
-		case '1': crear_usuario(usuarios); break;
-		case '9': cout << "saliendo..." << endl;
-		break;
-		default: cout << "Comando incorrecto, vuelva a intentar! "<< endl; break;
-		}
-		
-	}while(n!='9');
+	system("cls");
+	
+	cin.ignore();
+	crear_usuario(usuarios);
 	
 	guardar_datos(usuarios);
 	system("cls");
@@ -141,23 +130,10 @@ int main(int argc, char *argv[]) {
 	case 2:{
 		user usuarios[100];
 		cargar_datos(usuarios);
-		char n; 
-		do{
-			system("cls");
-			cout << "Ingrese opcion deseada: " << endl;
-			cout << "-----------------------" << endl;
-			cout << "1 - iniciar sesion " << endl;
-			cout << "9 - salir " << endl;
-			cin >> n;
-			cin.ignore();
-			switch(n){
-			case '1': iniciar_sesion(usuarios); break;
-			case '9': cout << "saliendo..." << endl;
-			break;
-			default: cout << "Comando incorrecto, vuelva a intentar! "<< endl; break;
-			}
-			
-		}while(n!='9');
+		
+		system("cls");
+		cin.ignore();
+		iniciar_sesion(usuarios);
 		
 		guardar_datos(usuarios);
 		system("cls");
@@ -524,6 +500,7 @@ void cargar_datos(user arr_usuarios[100]){
 							//Cierro la funcion si la contraseña no coincide
 							if(strcmp(contrasenia,password) != 0){
 								cout << "Las contraseñas no coinciden. Volviendo al menu..." << endl;
+								Sleep(3000);
 								return;
 							}
 							cout << "Contraseña confirmada. Registrando usuario..." << endl;
@@ -538,7 +515,7 @@ void cargar_datos(user arr_usuarios[100]){
 							strcpy(arr_usuarios[i].nombre_usuario,usuario);
 							strcpy(arr_usuarios[i].clave,contrasenia);
 							cout << "Usuario registrado exitosamente!" << endl;
-							cout << "Iniciando proceso de inicio de sesion...";
+							cout << "Iniciando proceso de inicio de sesion..." << endl;
 							iniciar_sesion(arr_usuarios);
 						}
 							void nuevo_acceso(user arr_usuarios[100],int i){
@@ -553,7 +530,6 @@ void cargar_datos(user arr_usuarios[100]){
 									char usuario_2[100], usuario[11],contrasenia_2[100],contrasenia[37],usuario_3[11];
 									int intentos=2;
 									do{
-										system("cls");
 										cout << "------------- INICIO DE SESION -------------" << endl;
 										cout << endl << "Ingrese su nombre de Usuario: " << endl;
 										cin.getline(usuario_2,100);
@@ -597,7 +573,8 @@ void cargar_datos(user arr_usuarios[100]){
 									}while(intentos>=0);
 									//Si no inicio ningun usuario, se quedo sin intentos
 									if(usuario_actual== -1){	
-										cout << "Ya no le quedan mas intentos.Por razones de seguridad se finaliza la ejecucion de iniciar sesion" << endl << endl;
+										cout << "Ya no le quedan mas intentos.Por razones de seguridad se finaliza la ejecucion de iniciar sesion..." << endl << endl;
+										Sleep(3000);
 									}else{
 										int j = usuario_actual;
 										strcpy(nombre_actual,usuario_3);
