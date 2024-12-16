@@ -283,7 +283,7 @@ int main(int argc, char *argv[]) {
 		switch(numaccesosmb){
 		case 1:{ok5=false;
 		while(!ok5){
-			cout << "Juego Super Mario Bros - Simulación X" << endl;
+			cout << "Juego Super Mario Bros - Simulación de encuentro entre Mario y Luigi" << endl;
 			cout << "=====================================" << endl;
 			cout << endl;
 			cout << endl;
@@ -778,24 +778,19 @@ void algoritmo3(){
 						void simulacion1(){
 							char tablero[10][20];
 							char tablerosimulacion[10][20];
-							int filas,columnas;
-							cout << "Ingrese la cantidad de filas del tablero (como maximo pueden ser 10): ";
-							cin >> filas;
-							cout << endl <<"Ingrese la cantidad de columnas del tablero (como maximo pueden ser 20): ";
-							cin >> columnas;
-							cout << endl;
-							for(int i=0;i<filas;i++){
-								for(int j=0;j<columnas;j++){
+							
+							for(int i=0;i<10;i++){
+								for(int j=0;j<20;j++){
 										tablero[i][j]=' ';
 								}
 							}
-							cargarTablero(tablerosimulacion,filas,columnas);
+							cargarTablero(tablerosimulacion,10,20);
 							bool ok=false;
 							int aves=0,rocas=0;
 							while(!ok){
 							int a,b;
-							for(int i=0;i<filas;i++){
-								for(int j=0;j<columnas;j++){
+							for(int i=0;i<10;i++){
+								for(int j=0;j<20;j++){
 									cout << tablero[i][j] <<" ";
 									}
 								cout << endl;
@@ -806,10 +801,10 @@ void algoritmo3(){
 							cin >> a;
 							if(a==99){
 								ok=true;
-								for(int i=0;i<filas;i++){
-									for(int j=0;j<columnas;j++){
+								for(int i=0;i<10;i++){
+									for(int j=0;j<20;j++){
 										if(tablerosimulacion[i][j]!='^' and tablerosimulacion[i][j]!='X'){
-											if(i==filas-1) tablero[i][j]='_';
+											if(i==9) tablero[i][j]='_';
 											else tablero[i][j]='.';
 										}
 										if(tablerosimulacion[i][j]=='^'){
@@ -835,20 +830,20 @@ void algoritmo3(){
 								tablero[a][b]='X';
 								++rocas;
 							}
-							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a<filas-1){
+							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a<9){
 								cout << endl << "Aire" << endl;
 								tablero[a][b]='.';
 							}
-							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a==filas-1){
+							if(tablerosimulacion[a][b]!='^' and tablerosimulacion[a][b]!='X' and a==9){
 								cout << endl << "Tierra" << endl;;
 								tablero[a][b]='_';
 							}
 							if(aves==10 and rocas==11){
 								ok=true;
-								for(int i=0;i<filas;i++){
-									for(int j=0;j<columnas;j++){
+								for(int i=0;i<10;i++){
+									for(int j=0;j<20;j++){
 										if(tablerosimulacion[i][j]!='^' and tablerosimulacion[i][j]!='X'){
-										if(i==filas-1) tablero[i][j]='_';
+										if(i==9) tablero[i][j]='_';
 										else tablero[i][j]='.';
 										}
 									}
@@ -857,8 +852,8 @@ void algoritmo3(){
 							
 							}
 							}
-							for(int i=0;i<filas;i++){
-								for(int j=0;j<columnas;j++){
+							for(int i=0;i<10;i++){
+								for(int j=0;j<20;j++){
 									cout << tablero[i][j] <<" ";
 								}
 								cout << endl;
