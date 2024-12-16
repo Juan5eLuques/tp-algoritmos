@@ -40,19 +40,19 @@ struct user{
 
 
 
-void algoritmo1();
-void algoritmo2();
-void algoritmo3();
-void algoritmo4();
+void algoritmo1(); // algoritmo de Numeros de mala suerte (iterativa)
+void algoritmo2(); // algoritmo de Numeros de mala suerte (recursiva)
+void algoritmo3(); // algoritmo de Numeros Espiral (iterativa)
+void algoritmo4(); // algoritmo de Numeros Espiral (recursiva)
 long long recursiva4(long long n);
-void simulacion1();
+void simulacion1(); // algoritmo de simulacion de Mario y Luigi
 void simulacion2();
 void cargarObstaculos(char tablero[][MAXIMO], int tamanio_obstaculos[], bool tipo, int filas, int columnas);
 bool disponible(char tablero[][MAXIMO], int x, int filas);
 void cargarTablero(char tablero[][MAXIMO], int filas, int columnas);
-bool numero_malasuerte(string n);
-unsigned long long irecursiva=0; bool uno_2=false; bool malasuerte = false;
-void numero_Ms_Recursivo(string &n);
+bool numero_malasuerte(string n); // funcion iterativa de algoritmo 1
+unsigned long long irecursiva=0; bool uno_2=false; bool malasuerte = false; //variables para la funcion recursiva de algoritmo 2
+void numero_Ms_Recursivo(string &n); //funcion recursiva de algoritmo 2
 int usuario_actual =-1;	//Subindice del usuario iniciado
 char nombre_actual[11]; 	//Nombre sin cifrar del usuario
 void cargar_datos(user arr_usuarios[100]);	//Carga los datos desde un archivo binario
@@ -70,8 +70,8 @@ void ejecutarSimulacion(char mundo[][20]);
 int main(int argc, char *argv[]) {
 	bool ok=false;
 	int numacceso;
-	string stralg1;
-	string stralg2;
+	string stralg1 = "Se pide un numero 'n', luego en la funcion va recorriendo el numero hasta encontrar la combinacion 13, si la encuentra retorna true y muestra el mensaje que ese numero es de mala suerte, sino retorna false y muestra el mensaje que ese numero no es de mala suerte";;
+	string stralg2 = "Se pide un numero 'n', luego en la funcion va recorriendo el numero, si encuentra un uno, y el numero siguiente es un 3, entonces corta la funcion y n es de mala suerte, sino pregunta si quedan valores por analizar, si quedan valores se llama a la funcion otra vez, y sino n no es de mala suerte";;
 	string stralg3 = "Se pide un numero 'n', luego entra al bucle (si n es distinto de 1) y con 2 auxiliares (aux es para ir sumando los valores previos a aux2, cuando se lo alcanza a aux2, este se incrementa en 1 y aux vuelve a valer 1, todo esto si aux2 no es igual a n) va preguntando, si aux es menor a aux2 (aca se suma 2 veces el valor de aux) y si aux es igual aux2(se suma 1 vez el valor de aux y si aux2 es menor a n se incrementa, sino termina el bucle). Luego de esto muestra el numero espiral de n y termina el programa";
 	string stralg4 = "Se pide un numero 'n', luego entra a la funcion 'recursiva', ahi pregunta, si n es igual a 1 , retorna 1, sino se suman 2 veces los valores previos a n y una vez el valor de n, luego retorna la suma más la funcion 'recursiva' pasandole como parametro n-1, cuando n sea iguala 1, retorna 1, se suman todos los valores y se devuelve esa suma a la funcion main, donde se mostrara el resultado";
 	
@@ -696,7 +696,7 @@ void algoritmo3(){
 	cin >> n;
 	if(n!=1){
 		bool ok=false;
-		while(!ok){
+		while(!ok){ //hasta que aux no sea igual a n no para
 			if(aux<aux2){
 				suma+=aux*2;
 				aux++;
@@ -704,8 +704,8 @@ void algoritmo3(){
 			if(aux==aux2){
 				suma+=aux;
 				if(aux2<n){
-					aux2++;
-					aux=1;
+					aux2++; //incrementa el tope
+					aux=1; //reseteo aux
 				}
 			}
 			if(aux==n) ok=true;
